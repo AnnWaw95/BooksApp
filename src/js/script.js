@@ -6,7 +6,7 @@
   const select = {
     books: {
       bookList: '.books-list',
-      bookImageLink: '#data-id',
+      bookImageLink: 'data-id',
       bookImage: '.book__image',
     },
     templateOf: {
@@ -33,15 +33,21 @@
     const favoriteBooks = [];
     
     for(const book of books) {
-      book.addEventListener('dblclick', function(event){
+      book.addEventListener('dblclick', function(event)
+      {console.log('favoriteBooks', favoriteBooks);
         event.preventDefault();
-        const bookId = book.getAttribute(select.books.bookImageLink);
+        const image = event.target.offsetParent;
+        const bookId = image.getAttribute('data-id');
+        console.log('bookId', bookId);
         if (favoriteBooks.includes(bookId)) {
           book.classList.remove('favorite');
+          const bookIndex = favoriteBooks.indexOf(bookId);
+          favoriteBooks.splice(bookIndex, 1);
         } else {
           book.classList.add('favorite');
           favoriteBooks.push(bookId);
         }
+  
       });
     }
     
