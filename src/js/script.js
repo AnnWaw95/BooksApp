@@ -35,12 +35,13 @@
     initData() {
       
       this.data = dataSource.books;
-      
+      this.filters = [];
     }
 
     getElements(){
       const thisBookList = this;
       thisBookList.bookListContainer = document.querySelector(select.books.bookList);
+      thisBookList.bookFilter = document.querySelector(select.books.bookFilters);
     }
 
     render(){
@@ -92,16 +93,16 @@
         });
       }
 
-      const bookFilter = document.querySelector(select.books.bookFilters);
+      // const bookFilters = document.querySelector(select.books.bookFilters);
 
-      bookFilter.addEventListener('click', function(callback){
+      thisBooksList.bookFilter.addEventListener('click', function(callback){
         const clickedElm = callback.target;
-        if(clickedElm.tagName == 'INPUT' && clickedElm.type == 'checkbox' && clickedElm.name == 'filters'){
+        if(clickedElm.tagName == 'INPUT' && clickedElm.type == 'checkbox' && clickedElm.name == 'filter'){
           if(clickedElm.checked){
-            bookFilter.push(clickedElm.value);
+            thisBooksList.filters.push(clickedElm.value);
           } else {
-            const indexValue = bookFilter.indexOf(clickedElm.value);
-            bookFilter.splice(indexValue, 1);
+            const indexValue = thisBooksList.filters.indexOf(clickedElm.value);
+            thisBooksList.filters.splice(indexValue, 1);
           }
         }
         console.log('clickedElm:', clickedElm.value);
@@ -113,7 +114,7 @@
       for(let book of dataSource.books){
         const filteredBook = document.querySelector('.book__image[data-id="' + book.id + '"]');
         let shouldBeHidden = false;
-        for(let filter of select.books.bookFilters){
+        for(let filter of thisBooksList.filters){
           if(!book.details[filter]){
             shouldBeHidden = true;
             break;
@@ -143,7 +144,6 @@
       return background;
     }
   }
-
-  const app = new BooksList();
+  new BooksList();
  
 }
