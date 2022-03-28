@@ -36,11 +36,12 @@
       
       this.data = dataSource.books;
       this.filters = [];
+      this.favouriteBooks = [];
     }
 
     getElements(){
       const thisBookList = this;
-      thisBookList.bookListContainer = document.querySelector(select.books.bookList);
+      thisBookList.books = document.querySelector(select.books.bookList);
       thisBookList.bookFilter = document.querySelector(select.books.bookFilters);
     }
 
@@ -71,27 +72,24 @@
 
     initAction(){
       const thisBooksList = this;
-      const books = document.querySelectorAll(select.books.bookImage);
-      const favoriteBooks = [];
     
-      for(const book of books) {
-        book.addEventListener('dblclick', function(event)
-        {console.log('favoriteBooks', favoriteBooks);
-          event.preventDefault();
-          const image = event.target.offsetParent;
-          const bookId = image.getAttribute('data-id');
-          console.log('bookId', bookId);
-          if (thisBooksList.favoriteBooks.includes(bookId)) {
-            book.classList.remove('favorite');
-            const bookIndex = favoriteBooks.indexOf(bookId);
-            favoriteBooks.splice(bookIndex, 1);
-          } else {
-            book.classList.add('favorite');
-            favoriteBooks.push(bookId);
-          }
-          console.log('favoriteBooks');
-        });
-      }
+      thisBooksList.books.addEventListener('dblclick', function(event){
+        console.log('favoriteBooks', thisBooksList.favoriteBooks);
+        event.preventDefault();
+        const image = event.target.offsetParent;
+        const bookId = image.getAttribute('data-id');
+        console.log('bookId', bookId);
+        if (thisBooksList.favoriteBooks.includes(bookId)) {
+          image.classList.remove('favorite');
+          const bookIndex = thisBooksList.favoriteBooks.indexOf(bookId);
+          thisBooksList.favoriteBooks.splice(bookIndex, 1);
+        } else {
+          image.classList.add('favorite');
+          thisBooksList.favoriteBooks.push(bookId);
+        }
+        console.log('favoriteBooks');
+      });
+      
 
       // const bookFilters = document.querySelector(select.books.bookFilters);
 
